@@ -1,0 +1,80 @@
+<div class="actions-container">
+  <mat-form-field class="mr-2">
+    <mat-label>Procurar contato</mat-label>
+    <input
+      matInput
+      type="text"
+      name="contato"
+      id="contato"
+      [disabled]="dataSource.data.length <= 0"
+      (keyup)="applyFilter($event)"
+    />
+  </mat-form-field>
+  <button
+    mat-raised-button
+    (click)="openAddContactModal()"
+    color="primary"
+    class="button"
+  >
+    Novo Contato
+  </button>
+</div>
+<div
+  *ngIf="dataSource.data.length <= 0"
+  style="display: flex; align-items: center"
+>
+  <mat-icon>contact_support</mat-icon>
+  <span style="font-size: 22px">
+    Você ainda não possui contatos. Adicione novos contatos clicando no botão
+    acima.</span
+  >
+</div>
+<div *ngIf="dataSource.data.length > 0">
+  <table
+    mat-table
+    matSort
+    (matSortChange)="sortData($event)"
+    matSortActive="Name"
+    matSortDirection="asc"
+    [dataSource]="dataSource"
+    class="mat-elevation-z8"
+    style="width: 100%"
+  >
+    <ng-container matColumnDef="ID">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="Name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="PhoneNumber">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Número de telefone
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.phone_number }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button class="delete-button mr-3" (click)="deletePhoneNumber(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button class="edit-button" (click)="opneEditContactModal(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator
+    [length]="dataSource.data.length"
+    [pageSizeOptions]="[5, 10, 20]"
+    aria-label="Select page of periodic elements"
+  >
+  </mat-paginator>
+</div>

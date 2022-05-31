@@ -1,0 +1,83 @@
+<h1 mat-dialog-title>{{ data.modalName }}</h1>
+
+<div mat-dialog-content class="row">
+  <form [formGroup]="formGroup">
+    <mat-form-field class="col">
+      <mat-label>Nome</mat-label>
+      <input
+        matInput
+        type="text"
+        name="name"
+        id="name"
+        placeholder="Novo Contato"
+        formControlName="name"
+      />
+      <mat-error
+        *ngIf="
+          formGroup.controls.name?.touched &&
+          formGroup.controls.name?.errors?.required
+        "
+        >O contato deve ter um nome</mat-error
+      >
+      <mat-error
+        *ngIf="
+          formGroup.controls.name?.touched &&
+          formGroup.controls.name?.errors?.minlength
+        "
+        >O nome do contato deve ter no mínimo 3 caracteres</mat-error
+      >
+      <mat-error
+        *ngIf="
+          formGroup.controls.name?.touched &&
+          formGroup.controls.name?.errors?.maxlength
+        "
+        >O nome do contato deve ter no máximo 20 caracteres</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="col">
+      <mat-label>Telefone</mat-label>
+      <input
+        matInput
+        type="text"
+        name="telefone"
+        id="telefone"
+        placeholder="99999999999"
+        mask="00099999999"
+        formControlName="phone_number"
+      />
+      <mat-error
+        *ngIf="
+          formGroup.controls.phone_number?.touched &&
+          formGroup.controls.phone_number?.errors?.required
+        "
+        >O contato deve ter um número de telefone</mat-error
+      >
+      <mat-error
+        *ngIf="
+          formGroup.controls.phone_number?.touched &&
+          formGroup.controls.phone_number?.errors?.minlength
+        "
+        >O número de telefone deve ter no mínimo 3 digitos</mat-error
+      >
+      <mat-error
+        *ngIf="
+          formGroup.controls.phone_number?.touched &&
+          formGroup.controls.phone_number?.errors?.maxlength
+        "
+        >O número de telefone deve ter no máximo 11 digitos</mat-error
+      >
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button
+    mat-raised-button
+    (click)="saveContact()"
+    color="primary"
+    [disabled]="formGroup.invalid"
+  >
+    Salvar
+  </button>
+  <button mat-raised-button (click)="closeModal()">Fechar</button>
+</div>
